@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -20,12 +19,15 @@ type Token struct {
 }
 
 func GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, error) {
-	data := url.Values{}
-	data.Add("grant_type", "client_credentials")
-	data.Add("client_id", clientID)
-	data.Add("client_secret", clientSecret)
+	//data := url.Values{}
+	//data.Add("grant_type", "client_credentials")
+	//data.Add("client_id", clientID)
+	//data.Add("client_secret", clientSecret)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiEndpoint+"/oauth/oauth20/token", strings.NewReader(data.Encode()))
+	data := fmt.Sprintf(`grant_type=client_credentials&client_id=%s&client_secret=%s`, clientID, clientSecret)
+
+	//req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiEndpoint+"/oauth/oauth20/token", strings.NewReader(data.Encode()))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiEndpoint+"/oauth/oauth20/token", strings.NewReader(data))
 	if err != nil {
 		return nil, err
 	}
