@@ -8,6 +8,13 @@ import (
 	"net/http"
 )
 
+type LineType string
+
+const (
+	Position LineType = "P"
+	Comment           = "C"
+)
+
 type createOrderV5 struct {
 	OrderCreateRequest OrderCreateRequest `json:"ordercreaterequest"`
 }
@@ -48,15 +55,16 @@ type ShipToAddress struct {
 }
 
 type Line struct {
-	LineType             string         `json:"linetype,omitempty"`
+	LineType             LineType       `json:"linetype,omitempty"`
 	LineNumber           string         `json:"linenumber,omitempty"`
 	IngramPartNumber     string         `json:"ingrampartnumber,omitempty"`
-	Quantity             string         `json:"quantity"`
+	Quantity             int            `json:"quantity"`
 	VendorPartNumber     string         `json:"vendorpartnumber,omitempty"`
 	CustomerPartNumber   string         `json:"customerpartnumber,omitempty"`
 	UPCCode              string         `json:"UPCCode,omitempty"`
 	WareHouseID          string         `json:"warehouseid,omitempty"`
-	UnitPrice            string         `json:"unitprice,omitempty"`
+	EndUserPrice         float64        `json:"enduserprice,omitempty"`
+	UnitPrice            float64        `json:"unitprice,omitempty"`
 	EndUser              *EndUser       `json:"enduser"`
 	ProductExtendedSpecs []ExtendedSpec `json:"productextendedspecs,omitempty"`
 }
