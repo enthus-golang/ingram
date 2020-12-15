@@ -27,8 +27,8 @@ type OrderCreateRequest struct {
 }
 
 type RequestPreamble struct {
-	ISOCountryCode string
-	CustomerNumber string
+	ISOCountryCode string `json:"isocountrycode"`
+	CustomerNumber string `json:"customernumber"`
 }
 
 type OrderCreateDetails struct {
@@ -41,8 +41,8 @@ type OrderCreateDetails struct {
 	CarrierCode                    string         `json:"carriercode,omitempty" validate:"max=2"`
 	ThirdPartyFreightAccountNumber string         `json:"thirdpartyfrieghtaccountnumber,omitempty"`
 	SpecialBidNumber               string         `json:"specialbidnumber,omitempty"`
-	Lines                          []Line         `json:"lines"`
-	ExtendedSpecs                  []ExtendedSpec `json:"extendedspecs"`
+	Lines                          []Line         `json:"lines,omitempty"`
+	ExtendedSpecs                  []ExtendedSpec `json:"extendedspecs,omitempty"`
 }
 
 type ShipToAddress struct {
