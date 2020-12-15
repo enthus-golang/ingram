@@ -3,6 +3,7 @@ package ingram
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -52,6 +53,8 @@ func (i *Ingram) checkAndUpdateToken(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("%+v", token)
 
 	expiresIn, err := strconv.Atoi(token.ExpiresIn)
 	if err != nil {

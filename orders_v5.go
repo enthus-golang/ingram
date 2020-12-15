@@ -49,7 +49,7 @@ type ShipToAddress struct {
 	AddressLine2 string `json:"addressline2" validate:"required,max=35"`
 	AddressLine3 string `json:"addressline3,omitempty" validate:"max=35"`
 	City         string `json:"city" validate:"required,max=21"`
-	State        string `json:"state" validate:"required,max=2"`
+	State        string `json:"state" validate:"max=2"`
 	PostalCode   string `json:"postalcode" validate:"required,max=9"`
 	CountryCode  string `json:"countrycode" validate:"required,max=2"`
 }
@@ -89,7 +89,7 @@ type ExtendedSpec struct {
 	AttributeValue string `json:"attributevalue"`
 }
 
-func (i *Ingram) CreateOrderV5(ctx context.Context, order OrderCreateRequest) error {
+func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) error {
 	err := i.validate.Struct(order)
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order OrderCreateRequest) er
 
 	b := new(bytes.Buffer)
 	err = json.NewEncoder(b).Encode(createOrderV5{
-		OrderCreateRequest: order,
+		OrderCreateRequest: *order,
 	})
 	if err != nil {
 		return err
