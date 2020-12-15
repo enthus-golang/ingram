@@ -5,7 +5,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"net/http/httputil"
 )
 
 type LineType string
@@ -113,10 +115,16 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 		return err
 	}
 
+	b1, _ := httputil.DumpRequest(req, true)
+	fmt.Println(string(b1))
+
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
+
+	b1, _ = httputil.DumpResponse(res, true)
+	fmt.Println(string(b1))
 
 	if res.StatusCode != http.StatusOK {
 		return errors.New(res.Status)

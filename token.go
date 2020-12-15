@@ -3,9 +3,9 @@ package ingram
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
-	"net/http/httputil"
 	"strconv"
 	"strings"
 	"time"
@@ -33,16 +33,14 @@ func GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, 
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	b, err := httputil.DumpRequest(req, true)
-	fmt.Println(string(b))
-
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 
-	b, err = httputil.DumpResponse(res, true)
-	fmt.Println(string(b))
+	if res.StatusCode != http.StatusOK {
+		return nil, errors.New("unable to create token")
+	}
 
 	var t Token
 	err = json.NewDecoder(res.Body).Decode(&t)
