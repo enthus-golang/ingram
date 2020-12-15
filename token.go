@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"strconv"
 	"strings"
@@ -30,10 +31,16 @@ func GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, 
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
+	b, err := httputil.DumpRequest(req, true)
+	fmt.Println(string(b))
+
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+
+	b, err = httputil.DumpResponse(res, true)
+	fmt.Println(string(b))
 
 	var t Token
 	err = json.NewDecoder(res.Body).Decode(&t)
