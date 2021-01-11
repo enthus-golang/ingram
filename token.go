@@ -61,8 +61,6 @@ func (i *Ingram) checkAndUpdateToken(ctx context.Context) error {
 		return err
 	}
 
-	fmt.Printf("%+v", token)
-
 	expiresIn, err := strconv.Atoi(token.ExpiresIn)
 	if err != nil {
 		return err
