@@ -114,6 +114,7 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 	if err != nil {
 		return err
 	}
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", i.token.AccessToken))
 
 	b1, _ := httputil.DumpRequest(req, true)
 	fmt.Println(string(b1))
