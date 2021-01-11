@@ -33,7 +33,7 @@ type RequestPreamble struct {
 
 type OrderCreateDetails struct {
 	CustomerPurchaseOrderNumber    string         `json:"customerponumber" validate:"min=1,max=18"`
-	OrderType                      string         `json:"ordertype" validate:"required"`
+	OrderType                      string         `json:"ordertype"`
 	EndUserOrderNumber             string         `json:"enduserordernumber,omitempty" validate:"max=18"`
 	BillToSuffix                   string         `json:"billtosuffix,omitempty" validate:"max=3"`
 	ShipToSuffix                   string         `json:"shiptosuffix,omitempty" validate:"max=3"`
