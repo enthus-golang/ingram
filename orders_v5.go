@@ -67,7 +67,7 @@ type Line struct {
 	WareHouseID          string         `json:"warehouseid,omitempty"`
 	EndUserPrice         float64        `json:"enduserprice,omitempty"`
 	UnitPrice            float64        `json:"unitprice,omitempty"`
-	EndUser              *EndUser       `json:"enduser"`
+	EndUser              *EndUser       `json:"enduser,omitempty"`
 	ProductExtendedSpecs []ExtendedSpec `json:"productextendedspecs,omitempty"`
 }
 
