@@ -37,7 +37,7 @@ type OrderCreateDetails struct {
 	EndUserOrderNumber             string         `json:"enduserordernumber,omitempty" validate:"max=18"`
 	BillToSuffix                   string         `json:"billtosuffix,omitempty" validate:"max=3"`
 	ShipToSuffix                   string         `json:"shiptosuffix,omitempty" validate:"max=3"`
-	ShipToAddress                  ShipToAddress  `json:"shiptoaddress"`
+	ShipToAddress                  *ShipToAddress `json:"shiptoaddress,omitempty"`
 	CarrierCode                    string         `json:"carriercode,omitempty" validate:"max=2"`
 	ThirdPartyFreightAccountNumber string         `json:"thirdpartyfrieghtaccountnumber,omitempty"`
 	SpecialBidNumber               string         `json:"specialbidnumber,omitempty"`
