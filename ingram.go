@@ -1,6 +1,8 @@
 package ingram
 
-import "github.com/go-playground/validator/v10"
+import (
+	"github.com/go-playground/validator/v10"
+)
 
 const apiEndpoint = "https://api.ingrammicro.com"
 
@@ -11,6 +13,7 @@ type Ingram struct {
 	endpoint     string
 	token        *Token
 	validate     *validator.Validate
+	logger       Logger
 }
 
 type OptionFunc func(i *Ingram) error
@@ -26,6 +29,13 @@ func WithOAuthCredentials(clientID, clientSecret string) OptionFunc {
 func EnableSandbox() OptionFunc {
 	return func(i *Ingram) error {
 		i.isSandbox = true
+		return nil
+	}
+}
+
+func WithLogger(logger Logger) OptionFunc {
+	return func(i *Ingram) error {
+		i.logger = logger
 		return nil
 	}
 }
@@ -48,4 +58,9 @@ func New(options ...OptionFunc) (*Ingram, error) {
 	}
 
 	return i, nil
+}
+
+// Logger specifies the interface for all log operations.
+type Logger interface {
+	Printf(format string, v ...interface{})
 }

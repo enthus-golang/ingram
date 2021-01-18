@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/http/httputil"
 	"strconv"
 	"strings"
 	"time"
@@ -18,7 +19,7 @@ type Token struct {
 	ValidUntil  time.Time `json:"-"`
 }
 
-func GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, error) {
+func (i *Ingram) GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, error) {
 	//data := url.Values{}
 	//data.Add("grant_type", "client_credentials")
 	//data.Add("client_id", clientID)
@@ -33,9 +34,25 @@ func GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, 
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
+	if i.logger != nil {
+		b, err := httputil.DumpRequest(req, true)
+		if err != nil {
+			return nil, err
+		}
+		i.logger.Printf(string(b))
+	}
+
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if i.logger != nil {
+		b, err := httputil.DumpResponse(res, true)
+		if err != nil {
+			return nil, err
+		}
+		i.logger.Printf(string(b))
 	}
 
 	if res.StatusCode != http.StatusOK {
@@ -56,7 +73,7 @@ func (i *Ingram) checkAndUpdateToken(ctx context.Context) error {
 		return nil
 	}
 
-	token, err := GetOAuthToken(ctx, i.clientID, i.clientSecret)
+	token, err := i.GetOAuthToken(ctx, i.clientID, i.clientSecret)
 	if err != nil {
 		return err
 	}

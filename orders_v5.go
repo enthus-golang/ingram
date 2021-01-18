@@ -116,16 +116,26 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", i.token.AccessToken))
 
-	b1, _ := httputil.DumpRequest(req, true)
-	fmt.Println(string(b1))
+	if i.logger != nil {
+		b, err := httputil.DumpRequest(req, true)
+		if err != nil {
+			return err
+		}
+		i.logger.Printf(string(b))
+	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
 
-	b1, _ = httputil.DumpResponse(res, true)
-	fmt.Println(string(b1))
+	if i.logger != nil {
+		b, err := httputil.DumpResponse(res, true)
+		if err != nil {
+			return err
+		}
+		i.logger.Printf(string(b))
+	}
 
 	if res.StatusCode != http.StatusOK {
 		return errors.New(res.Status)
