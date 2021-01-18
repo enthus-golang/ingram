@@ -20,15 +20,13 @@ type Token struct {
 }
 
 func (i *Ingram) GetOAuthToken(ctx context.Context, clientID, clientSecret string) (*Token, error) {
-	//data := url.Values{}
-	//data.Add("grant_type", "client_credentials")
-	//data.Add("client_id", clientID)
-	//data.Add("client_secret", clientSecret)
-
 	data := fmt.Sprintf(`grant_type=client_credentials&client_id=%s&client_secret=%s`, clientID, clientSecret)
 
-	//req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiEndpoint+"/oauth/oauth20/token", strings.NewReader(data.Encode()))
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiEndpoint+"/oauth/oauth20/token", strings.NewReader(data))
+	version := "30"
+	if i.isSandbox {
+		version = "20"
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/oauth/oauth%s/token", apiEndpoint, version), strings.NewReader(data))
 	if err != nil {
 		return nil, err
 	}
