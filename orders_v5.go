@@ -115,6 +115,8 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 		return err
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", i.token.AccessToken))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "*/*")
 
 	if i.logger != nil {
 		b, err := httputil.DumpRequest(req, true)

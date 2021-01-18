@@ -31,6 +31,8 @@ func (i *Ingram) GetOAuthToken(ctx context.Context, clientID, clientSecret strin
 		return nil, err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "*/*")
 
 	if i.logger != nil {
 		b, err := httputil.DumpRequest(req, true)
@@ -83,8 +85,6 @@ func (i *Ingram) checkAndUpdateToken(ctx context.Context) error {
 	token.ValidUntil = time.Now().Add(time.Duration(expiresIn-60) * time.Second)
 
 	i.token = token
-
-	time.Sleep(10 * time.Second)
 
 	return nil
 }
