@@ -84,5 +84,7 @@ func (i *Ingram) checkAndUpdateToken(ctx context.Context) error {
 
 	i.token = token
 
+	time.Sleep(10 * time.Second)
+
 	return nil
 }
