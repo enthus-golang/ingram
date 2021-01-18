@@ -31,7 +31,6 @@ func (i *Ingram) GetOAuthToken(ctx context.Context, clientID, clientSecret strin
 		return nil, err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "*/*")
 
 	if i.logger != nil {
