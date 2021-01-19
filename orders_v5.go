@@ -91,6 +91,47 @@ type ExtendedSpec struct {
 	AttributeValue string `json:"attributevalue"`
 }
 
+type OrderCreateResponseServiceResponse struct {
+	ServiceResponse OrderServiceResponse `json:"serviceresponse"`
+}
+
+type OrderServiceResponse struct {
+	ResponsePreamble ResponsePreamble `json:"responsepreamble"`
+	OrderSummary     OrderSummary     `json:"ordersummary"`
+}
+
+type ResponsePreamble struct {
+	ResponseStatus  string `json:"responsestatus"`
+	StatusCode      string `json:"statuscode"`
+	ResponseMessage string `json:"responsemessage"`
+}
+
+type OrderSummary struct {
+	OrderCreateResponses []OrderCreateResponse `json:"ordercreateresponse"`
+}
+
+type OrderCreateResponse struct {
+	NumberOfLinesWithSuccess string                    `json:"numberoflineswithsuccess"`
+	NumberOfLinesWithError   string                    `json:"numberoflineswitherror"`
+	NumberOfLinesWithWarning string                    `json:"numberoflineswithwarning"`
+	GlobalOrderID            string                    `json:"globalorderid"`
+	OrderType                string                    `json:"ordertype"`
+	OrderTimestamp           string                    `json:"ordertimestamp"`
+	InvoicingSystemOrderID   string                    `json:"invoicingsystemorderid"`
+	TaxAmount                float64                   `json:"taxamount"`
+	FreightAmount            float64                   `json:"freightamount"`
+	OrderAmount              float64                   `json:"orderamount"`
+	Lines                    []OrderCreateResponseLine `json:"lines"`
+}
+
+type OrderCreateResponseLine struct {
+	LineType         string `json:"linetype"`
+	GlobalLineNumber string `json:"globallinenumber"`
+	PartNumber       string `json:"partnumber"`
+	GlobalSKUID      string `json:"globalskuid"`
+	LineNumber       string `json:"linenumber"`
+}
+
 func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) error {
 	err := i.validate.Struct(order)
 	if err != nil {
