@@ -132,15 +132,15 @@ type OrderCreateResponseLine struct {
 	LineNumber       string `json:"linenumber"`
 }
 
-func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) error {
+func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) (*OrderCreateResponseServiceResponse, error) {
 	err := i.validate.Struct(order)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	err = i.checkAndUpdateToken(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	b := new(bytes.Buffer)
@@ -148,12 +148,12 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 		OrderCreateRequest: *order,
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, i.endpoint+"/resellers/v5/orders", b)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", i.token.AccessToken))
 	req.Header.Set("Content-Type", "application/json")
@@ -162,27 +162,33 @@ func (i *Ingram) CreateOrderV5(ctx context.Context, order *OrderCreateRequest) e
 	if i.logger != nil {
 		b, err := httputil.DumpRequest(req, true)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		i.logger.Printf(string(b))
 	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if i.logger != nil {
 		b, err := httputil.DumpResponse(res, true)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		i.logger.Printf(string(b))
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return errors.New(res.Status)
+		return nil, errors.New(res.Status)
 	}
 
-	return nil
+	var response OrderCreateResponseServiceResponse
+	err = json.NewDecoder(res.Body).Decode(&response)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
 }
