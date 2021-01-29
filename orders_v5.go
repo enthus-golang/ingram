@@ -54,6 +54,7 @@ func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailReques
 	q := u.Query()
 	q.Add("customernumber", orderDetail.CustomerNumber)
 	q.Add("isocountrycode ", orderDetail.ISOCountryCode)
+	u.RawQuery = q.Encode()
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
 	if err != nil {
