@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httputil"
+	"net/url"
 )
 
 type LineType string
@@ -16,6 +17,84 @@ const (
 	Position LineType = "P"
 	Comment           = "C"
 )
+
+type OrderDetailRequest struct {
+	OrderNumber    string `validate:"required"`
+	CustomerNumber string `validate:"required"`
+	ISOCountryCode string `validate:"required"`
+}
+
+type OrderDetailResponseServiceResponse struct {
+	ServiceResponse OrderDetailServiceResponse `json:"serviceresponse"`
+}
+
+type OrderDetailServiceResponse struct {
+	ResponsePreamble    ResponsePreamble    `json:"responsepreamble"`
+	OrderDetailResponse OrderDetailResponse `json:"orderdetailresponse"`
+}
+
+type OrderDetailResponse struct {
+}
+
+func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailRequest) (*OrderDetailServiceResponse, error) {
+	err := i.validate.Struct(orderDetail)
+	if err != nil {
+		return nil, err
+	}
+
+	err = i.checkAndUpdateToken(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	u, err := url.Parse(fmt.Sprintf("%s/resellers/v5/orders/%s", i.endpoint, orderDetail.OrderNumber))
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	q.Add("customernumber", orderDetail.CustomerNumber)
+	q.Add("isocountrycode ", orderDetail.ISOCountryCode)
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", i.token.AccessToken))
+	req.Header.Set("Accept", "*/*")
+
+	if i.logger != nil {
+		b, err := httputil.DumpRequest(req, true)
+		if err != nil {
+			return nil, err
+		}
+		i.logger.Printf(string(b))
+	}
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if i.logger != nil {
+		b, err := httputil.DumpResponse(res, true)
+		if err != nil {
+			return nil, err
+		}
+		i.logger.Printf(string(b))
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return nil, errors.New(res.Status)
+	}
+
+	var response OrderDetailServiceResponse
+	err = json.NewDecoder(res.Body).Decode(&response)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
 
 type createOrderV5 struct {
 	OrderCreateRequest OrderCreateRequest `json:"ordercreaterequest"`
