@@ -34,9 +34,15 @@ type OrderDetailServiceResponse struct {
 }
 
 type OrderDetailResponse struct {
+	MiscFeeLines []OrderDetailMiscFeeLine `json:"miscfeeline"`
 }
 
-func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailRequest) (*OrderDetailServiceResponse, error) {
+type OrderDetailMiscFeeLine struct {
+	Description  string `json:"description"`
+	ChargeAmount string `json:"chargeamount"`
+}
+
+func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailRequest) (*OrderDetailResponseServiceResponse, error) {
 	err := i.validate.Struct(orderDetail)
 	if err != nil {
 		return nil, err
@@ -88,7 +94,7 @@ func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailReques
 		return nil, errors.New(res.Status)
 	}
 
-	var response OrderDetailServiceResponse
+	var response OrderDetailResponseServiceResponse
 	err = json.NewDecoder(res.Body).Decode(&response)
 	if err != nil {
 		return nil, err
