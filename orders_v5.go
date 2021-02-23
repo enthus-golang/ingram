@@ -35,19 +35,19 @@ type OrderDetailServiceResponse struct {
 }
 
 type OrderDetailResponse struct {
-	OrderNumber            string  `json:"ordernumber"`
-	OrderType              string  `json:"ordertype"`
-	CustomerOrderNumber    string  `json:"customerordernumber"`
-	EndUserPoNumber        string  `json:"enduserponumber"`
-	OrderStatus            string  `json:"orderstatus"`
-	EntryTimestamp         string  `json:"entrytimestamp"`
-	EntryMethodDescription string  `json:"entrymethoddescription"`
-	OrderTotalValue        float64 `json:"ordertotalvalue"`
-	OrderSubTotal          float64 `json:"ordersubtotal"`
-	FreightAmount          string  `json:"freightamount"`
-	CurrencyCode           string  `json:"currencycode"`
-	TotalWeight            string  `json:"totalweight"`
-	TotalTax               string  `json:"totaltax"`
+	OrderNumber            string    `json:"ordernumber"`
+	OrderType              string    `json:"ordertype"`
+	CustomerOrderNumber    string    `json:"customerordernumber"`
+	EndUserPoNumber        string    `json:"enduserponumber"`
+	OrderStatus            string    `json:"orderstatus"`
+	EntryTimestamp         time.Time `json:"entrytimestamp"`
+	EntryMethodDescription string    `json:"entrymethoddescription"`
+	OrderTotalValue        float64   `json:"ordertotalvalue"`
+	OrderSubTotal          float64   `json:"ordersubtotal"`
+	FreightAmount          string    `json:"freightamount"`
+	CurrencyCode           string    `json:"currencycode"`
+	TotalWeight            string    `json:"totalweight"`
+	TotalTax               string    `json:"totaltax"`
 	BillToAddress          OrderDetailAddress
 	ShipToAddress          OrderDetailAddress
 	Lines                  []OrderDetailLine        `json:"lines"`
@@ -260,7 +260,7 @@ type OrderCreateResponse struct {
 	NumberOfLinesWithWarning string                    `json:"numberoflineswithwarning"`
 	GlobalOrderID            string                    `json:"globalorderid"`
 	OrderType                string                    `json:"ordertype"`
-	OrderTimestamp           time.Time                 `json:"ordertimestamp"`
+	OrderTimestamp           string                    `json:"ordertimestamp"`
 	InvoicingSystemOrderID   string                    `json:"invoicingsystemorderid"`
 	TaxAmount                float64                   `json:"taxamount"`
 	FreightAmount            float64                   `json:"freightamount"`
