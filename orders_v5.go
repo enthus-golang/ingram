@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"time"
 )
 
 type LineType string
@@ -259,7 +260,7 @@ type OrderCreateResponse struct {
 	NumberOfLinesWithWarning string                    `json:"numberoflineswithwarning"`
 	GlobalOrderID            string                    `json:"globalorderid"`
 	OrderType                string                    `json:"ordertype"`
-	OrderTimestamp           string                    `json:"ordertimestamp"`
+	OrderTimestamp           time.Time                 `json:"ordertimestamp"`
 	InvoicingSystemOrderID   string                    `json:"invoicingsystemorderid"`
 	TaxAmount                float64                   `json:"taxamount"`
 	FreightAmount            float64                   `json:"freightamount"`
