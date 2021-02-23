@@ -34,7 +34,64 @@ type OrderDetailServiceResponse struct {
 }
 
 type OrderDetailResponse struct {
-	MiscFeeLines []OrderDetailMiscFeeLine `json:"miscfeeline"`
+	OrderNumber            string  `json:"ordernumber"`
+	OrderType              string  `json:"ordertype"`
+	CustomerOrderNumber    string  `json:"customerordernumber"`
+	EndUserPoNumber        string  `json:"enduserponumber"`
+	OrderStatus            string  `json:"orderstatus"`
+	EntryTimestamp         string  `json:"entrytimestamp"`
+	EntryMethodDescription string  `json:"entrymethoddescription"`
+	OrderTotalValue        float64 `json:"ordertotalvalue"`
+	OrderSubTotal          float64 `json:"ordersubtotal"`
+	FreightAmount          string  `json:"freightamount"`
+	CurrencyCode           string  `json:"currencycode"`
+	TotalWeight            string  `json:"totalweight"`
+	TotalTax               string  `json:"totaltax"`
+	BillToAddress          OrderDetailAddress
+	ShipToAddress          OrderDetailAddress
+	Lines                  []OrderDetailLine        `json:"lines"`
+	CommentLines           []OrderDetailCommentLine `json:"commentlines"`
+	MiscFeeLines           []OrderDetailMiscFeeLine `json:"miscfeeline"`
+	ExtendedSpecs          []ExtendedSpec           `json:"extendedspecs"`
+}
+
+type OrderDetailAddress struct {
+	Suffix       string `json:"suffix"`
+	Name         string `json:"name"`
+	Attention    string `json:"attention"`
+	AddressLine1 string `json:"addressline1"`
+	AddressLine2 string `json:"addressline2"`
+	AddressLine3 string `json:"addressline3"`
+	City         string `json:"city"`
+	State        string `json:"state"`
+	PostalCode   string `json:"postalcode"`
+	CountryCode  string `json:"countrycode"`
+}
+
+type OrderDetailLine struct {
+	LineNumber             string  `json:"linenumber"`
+	GlobalLineNumber       string  `json:"globallinenumber"`
+	OrderSuffix            string  `json:"ordersuffix"`
+	ERPOrderNumber         string  `json:"erpordernumber"`
+	LineStatus             string  `json:"linestatus"`
+	PartNumber             string  `json:"partnumber"`
+	ManufacturerPartNumber string  `json:"manufacturerpartnumber"`
+	VendorName             string  `json:"vendorname"`
+	VendorCode             string  `json:"vendorcode"`
+	PartDescription1       string  `json:"partdescription1"`
+	PartDescription2       string  `json:"partdescription2"`
+	UnitWeight             string  `json:"unitweight"`
+	UnitPrice              float64 `json:"unitprice"`
+	ExtendedPrice          float64 `json:"extendedprice"`
+	TaxAmount              float64 `json:"taxamount"`
+	RequestedQuantity      string  `json:"requestedquantity"`
+	ConfirmedQuantity      string  `json:"confirmedquantity"`
+	BackorderQuantity      string  `json:"backorderquantity"`
+}
+
+type OrderDetailCommentLine struct {
+	CommentText1 string `json:"commenttext1"`
+	CommentText2 string `json:"commenttext2"`
 }
 
 type OrderDetailMiscFeeLine struct {
