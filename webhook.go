@@ -24,11 +24,11 @@ const (
 )
 
 type Webhook struct {
-	Topic          string            `json:"topic"`
-	Event          string            `json:"event"`
-	EventTimeStamp time.Time         `json:"evenTtimeStamp"`
-	EventID        string            `json:"eventId"`
-	Resources      []WebhookResource `json:"resource"`
+	Topic          string          `json:"topic"`
+	Event          string          `json:"event"`
+	EventTimeStamp time.Time       `json:"evenTtimeStamp"`
+	EventID        string          `json:"eventId"`
+	Resource       WebhookResource `json:"resource"`
 }
 
 type WebhookResource struct {
