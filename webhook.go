@@ -48,12 +48,12 @@ type WebhookResourceLine struct {
 	RequestedQuantity   string                      `json:"requestedQuantity"`
 	ShippedQuantity     string                      `json:"shippedQuantity"`
 	BackOrderedQuantity string                      `json:"backOrderedQuantity"`
-	ShipmentDetails     []WebhookShipmentDetail     `json:"shipmentDetails"`
+	ShipmentDetails     WebhookShipmentDetail       `json:"shipmentDetails"`
 	SerialNumberDetails []WebhookSerialNumberDetail `json:"serialNumberDetails"`
 }
 
 type WebhookShipmentDetail struct {
-	ShipmentDate        string                         `json:"shipmentDate"`
+	ShipmentDate        *string                        `json:"shipmentDate"`
 	ShipFromWarehouseID string                         `json:"shipFromWarehouseId"`
 	WarehouseName       string                         `json:"warehouseName"`
 	CarrierCode         string                         `json:"carrierCode"`
