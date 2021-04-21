@@ -3,24 +3,20 @@ package ingram
 import "time"
 
 type WebhookEvent string
+type WebhookEventType string
+type WebhookLineStatus string
 
 const (
 	UpdateEvent WebhookEvent = "im::updated"
-)
 
-type WebhookEventType string
-
-const (
 	OrderShipped  WebhookEventType = "im::order_shipped"
 	OrderInvoiced WebhookEventType = "im::order_invoiced"
 	OrderHold     WebhookEventType = "im::order_hold"
 	OrderVoided   WebhookEventType = "im::order_voided"
-)
 
-type WebhookLineStatus string
-
-const (
-	LineShipped WebhookLineStatus = "im::shipped"
+	LineShipped    WebhookLineStatus = "im::shipped"
+	LineSalesHold  WebhookLineStatus = "IM::SALES_HOLD"
+	LineOnlineHold WebhookLineStatus = "IM::IM_ONLINE_HOLD"
 )
 
 type Webhook struct {
