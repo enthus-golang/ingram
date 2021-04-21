@@ -34,7 +34,7 @@ type Webhook struct {
 type WebhookResource struct {
 	EventType           string                `json:"eventType"`
 	OrderNumber         string                `json:"orderNumber"`
-	CustomerOrderNumber string                `json:"customerOrderNumber"`
+	CustomerPoNumber    string                `json:"customerPoNumber"`
 	OrderEntryTimeStamp time.Time             `json:"orderEntryTimeStamp"`
 	Lines               []WebhookResourceLine `json:"lines"`
 }
