@@ -12,9 +12,9 @@ type WebhookEventType string
 
 const (
 	OrderShipped  WebhookEventType = "im::order_shipped"
-	OrderInvoiced                  = "im::order_invoiced"
-	OrderHold                      = "im::order_hold"
-	OrderVoided                    = "im::order_voided"
+	OrderInvoiced WebhookEventType = "im::order_invoiced"
+	OrderHold     WebhookEventType = "im::order_hold"
+	OrderVoided   WebhookEventType = "im::order_voided"
 )
 
 type WebhookLineStatus string
@@ -32,7 +32,7 @@ type Webhook struct {
 }
 
 type WebhookResource struct {
-	EventType           string                `json:"eventType"`
+	EventType           WebhookEventType      `json:"eventType"`
 	OrderNumber         string                `json:"orderNumber"`
 	CustomerPoNumber    string                `json:"customerPoNumber"`
 	OrderEntryTimeStamp time.Time             `json:"orderEntryTimeStamp"`
