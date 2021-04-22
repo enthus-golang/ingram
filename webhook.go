@@ -9,12 +9,12 @@ type WebhookLineStatus string
 const (
 	UpdateEvent WebhookEvent = "im::updated"
 
-	OrderShipped  WebhookEventType = "im::order_shipped"
-	OrderInvoiced WebhookEventType = "im::order_invoiced"
-	OrderHold     WebhookEventType = "im::order_hold"
-	OrderVoided   WebhookEventType = "im::order_voided"
+	OrderShipped  WebhookEventType = "IM::order_shipped"
+	OrderInvoiced WebhookEventType = "IM::order_invoiced"
+	OrderHold     WebhookEventType = "IM::order_hold"
+	OrderVoided   WebhookEventType = "IM::order_voided"
 
-	LineShipped    WebhookLineStatus = "im::shipped"
+	LineShipped    WebhookLineStatus = "IM::SHIPPED"
 	LineSalesHold  WebhookLineStatus = "IM::SALES_HOLD"
 	LineOnlineHold WebhookLineStatus = "IM::IM_ONLINE_HOLD"
 )
@@ -22,7 +22,7 @@ const (
 type Webhook struct {
 	Topic          string          `json:"topic"`
 	Event          string          `json:"event"`
-	EventTimeStamp time.Time       `json:"evenTtimeStamp"`
+	EventTimeStamp time.Time       `json:"eventTimeStamp"`
 	EventID        string          `json:"eventId"`
 	Resource       WebhookResource `json:"resource"`
 }
