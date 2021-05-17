@@ -58,9 +58,9 @@ type WebhookShipmentDetail struct {
 }
 
 type WebhookShipmentPackageDetail struct {
-	CartonNumber   string `json:"cartonNumber"`
-	QuantityInbox  string `json:"quantityInbox"`
-	TrackingNumber string `json:"trackingNumber"`
+	CartonNumber   string  `json:"cartonNumber"`
+	QuantityInbox  float64 `json:"quantityInbox"`
+	TrackingNumber string  `json:"trackingNumber"`
 }
 
 type WebhookSerialNumberDetail struct {
