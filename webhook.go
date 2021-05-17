@@ -41,9 +41,9 @@ type WebhookResourceLine struct {
 	LineStatus          string                      `json:"lineStatus"`
 	IngramPartNumber    string                      `json:"ingramPartNumber"`
 	VendorPartNumber    string                      `json:"vendorPartNumber"`
-	RequestedQuantity   string                      `json:"requestedQuantity"`
-	ShippedQuantity     string                      `json:"shippedQuantity"`
-	BackOrderedQuantity string                      `json:"backOrderedQuantity"`
+	RequestedQuantity   float64                     `json:"requestedQuantity"`
+	ShippedQuantity     float64                     `json:"shippedQuantity"`
+	BackOrderedQuantity float64                     `json:"backOrderedQuantity"`
 	ShipmentDetails     WebhookShipmentDetail       `json:"shipmentDetails"`
 	SerialNumberDetails []WebhookSerialNumberDetail `json:"serialNumberDetails"`
 }
