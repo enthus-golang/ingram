@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -149,7 +150,8 @@ func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailReques
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, errors.New(res.Status)
+		body, _ := ioutil.ReadAll(res.Body)
+		return nil, fmt.Errorf("%s: %s", res.Status, string(body))
 	}
 
 	var response OrderDetailResponseServiceResponse
