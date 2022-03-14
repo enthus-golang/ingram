@@ -70,12 +70,12 @@ type Pricing struct {
 }
 
 type Product struct {
-	IngramPartNumber     string                `json:"ingramPartNumber"`
-	VendorPartNumber     string                `json:"vendorPartNumber"`
-	CustomerPartNumber   string                `json:"customerPartNumber"`
-	UPC                  string                `json:"upc"`
-	QuantityRequested    string                `json:"quantityRequested"`
-	AdditionalAttributes []AdditionalAttribute `json:"additionalAttributes"`
+	IngramPartNumber     string                `json:"ingramPartNumber,omitempty"`
+	VendorPartNumber     string                `json:"vendorPartNumber,omitempty"`
+	CustomerPartNumber   string                `json:"customerPartNumber,omitempty"`
+	UPC                  string                `json:"upc,omitempty"`
+	QuantityRequested    string                `json:"quantityRequested,omitempty"`
+	AdditionalAttributes []AdditionalAttribute `json:"additionalAttributes,omitempty"`
 }
 
 type AdditionalAttribute struct {
