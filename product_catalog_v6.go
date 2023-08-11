@@ -5,12 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	uuid "github.com/satori/go.uuid"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"strconv"
+
+	uuid "github.com/google/uuid"
 )
 
 type PriceAndAvailabilityRequest struct {
@@ -123,7 +124,7 @@ func (i *Ingram) PriceAndAvailability(ctx context.Context, priceAndAvailabilityR
 	req.Header.Set("Accept", "*/*")
 	req.Header.Add("IM-CustomerNumber", priceAndAvailabilityRequest.CustomerNumber)
 	req.Header.Add("IM-CountryCode", priceAndAvailabilityRequest.ISOCountryCode)
-	req.Header.Add("IM-CorrelationID", uuid.NewV4().String()) // some random uuid to trick ingram
+	req.Header.Add("IM-CorrelationID", uuid.NewString()) // some random uuid to trick ingram
 
 	if i.logger != nil {
 		b, err := httputil.DumpRequest(req, true)
