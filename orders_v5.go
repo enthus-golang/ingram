@@ -17,7 +17,7 @@ type LineType string
 
 const (
 	Position LineType = "P"
-	Comment           = "C"
+	Comment  LineType = "C"
 )
 
 type OrderDetailRequest struct {
