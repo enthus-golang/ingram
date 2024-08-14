@@ -1,0 +1,93 @@
+name: Go
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+
+      - name: Set up Golang build cache
+        uses: actions/cache@v4
+        with:
+          path:  ~/.cache/go-build
+          key: ${{ runner.os }}-golang-golangci-lint-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-golang-
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+
+      - name: Set up Golang build cache
+        uses: actions/cache@v4
+        with:
+          path:  ~/.cache/go-build
+          key: ${{ runner.os }}-golang-test-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-golang-
+
+      - name: Download go modules
+        run: go mod download
+
+      - name: Test
+        uses: robherley/go-test-action@v0
+        with:
+          testArguments: ./...
+
+  license-check:
+    runs-on: ubuntu-latest
+    name: License Check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+
+      - name: Install go-licenses
+        run: go install github.com/google/go-licenses@latest
+        shell: bash
+
+      - name: Check licenses
+        run: >
+          go-licenses check ./...
+          --ignore ${{ github.repository }}
+        shell: bash
+
+      - name: Get licenses list
+        run: >
+          go-licenses csv ./...
+          --ignore ${{ github.repository }}
+        shell: bash
