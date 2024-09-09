@@ -3,7 +3,7 @@ module github.com/enthus-golang/ingram
 go 1.22
 
 require (
-	github.com/go-playground/validator/v10 v10.22.0
+	github.com/go-playground/validator/v10 v10.22.1
 	github.com/google/uuid v1.6.0
 )
 
