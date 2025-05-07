@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -148,7 +148,7 @@ func (i *Ingram) PriceAndAvailability(ctx context.Context, priceAndAvailabilityR
 	}
 
 	if res.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(res.Body)
+		body, _ := io.ReadAll(res.Body)
 		return nil, fmt.Errorf("%s: %s", res.Status, string(body))
 	}
 
