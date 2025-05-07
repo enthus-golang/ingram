@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -150,7 +150,7 @@ func (i *Ingram) OrderDetail(ctx context.Context, orderDetail *OrderDetailReques
 	}
 
 	if res.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(res.Body)
+		body, _ := io.ReadAll(res.Body)
 		return nil, fmt.Errorf("%s: %s", res.Status, string(body))
 	}
 
