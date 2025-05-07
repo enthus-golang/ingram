@@ -1,0 +1,49 @@
+name: License Go
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    name: License Check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+
+      - name: Install go-licenses
+        run: go install github.com/google/go-licenses@latest
+
+      - name: Check licenses
+        run: go-licenses check ./...
+
+  license-report:
+    runs-on: ubuntu-latest
+    name: License Report
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+
+      - name: Install go-licenses
+        run: go install github.com/google/go-licenses@latest
+
+      - name: Report to GitHub Step Summary
+        run: >
+          go-licenses report ./...
+          --template .github/templates/go-licenses.md.tpl
+          >> $GITHUB_STEP_SUMMARY
+        shell: bash
