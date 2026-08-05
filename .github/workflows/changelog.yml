@@ -24,7 +24,7 @@ jobs:
 
       - name: Generate Changelog
         id: changelog
-        uses: mikepenz/release-changelog-builder-action@v5
+        uses: mikepenz/release-changelog-builder-action@v6
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
